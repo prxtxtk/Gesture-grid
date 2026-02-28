@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login • SignMaster</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ----------- Reset & Base ----------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            font-family: "Poppins", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f172a, #312e81, #5b21b6);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Decorative Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #4f46e5; top: -50px; left: -50px; }
+        .orb-2 { width: 250px; height: 250px; background: #db2777; bottom: -50px; right: -50px; }
+
+        /* ----------- Login Card ----------- */
+        .login-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 35px;
+            margin: 20px;
+            
+            /* Glassmorphism Effect */
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            
+            text-align: center;
+            color: white;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Shake animation for errors */
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Header Section */
+        .logo-icon {
+            font-size: 48px;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-sub {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        /* ----------- Inputs ----------- */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 45px 14px 20px; /* Right padding for icons */
+            font-size: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            transition: 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .input-group input:focus {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: #818cf8;
+            box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
+        }
+
+        /* Icons inside inputs */
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus ~ .input-icon {
+            color: #818cf8;
+        }
+
+        /* Password Toggle Cursor */
+        .toggle-password {
+            cursor: pointer;
+            z-index: 2;
+        }
+        .toggle-password:hover {
+            color: #fff;
+        }
+
+        /* ----------- Button ----------- */
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            
+            /* Gradient Button */
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer / Links */
+        .footer-links {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+        .footer-links a {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+            transition: 0.2s;
+        }
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Error Message */
+        #err {
+            min-height: 20px;
+            margin-top: 15px;
+            color: #fda4af; /* Soft red */
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #err.visible { opacity: 1; }
+    </style>
+</head>
+
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="login-card" id="card">
+        <i class="fas fa-hands-asl-interpreting logo-icon"></i>
+        
+        <div class="login-title">SignMaster</div>
+        <div class="login-sub">Welcome back! Please login to continue.</div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            
+            <div class="input-group">
+                <input type="text" id="u" placeholder="Username" autocomplete="username">
+                <i class="fas fa-user input-icon"></i>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="p" placeholder="Password" autocomplete="current-password">
+                <i class="fas fa-eye input-icon toggle-password" id="togglePass" onclick="togglePassword()"></i>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Log In <i class="fas fa-arrow-right" style="margin-left:8px; font-size:14px;"></i>
+            </button>
+
+        </form>
+
+        <div id="err"></div>
+
+        <div class="footer-links">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Handle Login
+        function handleLogin(e) {
+            e.preventDefault(); // Stop form from reloading page
+
+            const userInput = document.getElementById("u");
+            const passInput = document.getElementById("p");
+            const errMsg = document.getElementById("err");
+            const card = document.getElementById("card");
+
+            const user = userInput.value.trim();
+            const pass = passInput.value.trim();
+
+            // Clear previous errors
+            errMsg.classList.remove('visible');
+            card.classList.remove('shake');
+
+            // Simple validation
+            if (user.length === 0 || pass.length === 0) {
+                // Trigger reflow to restart animation if needed
+                void card.offsetWidth; 
+                card.classList.add('shake');
+                
+                errMsg.textContent = "Username and password are required.";
+                errMsg.classList.add('visible');
+                return;
+            }
+
+            // Success Animation
+            const btn = document.querySelector('.login-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.style.opacity = "0.8";
+
+            // Simulate network delay for effect
+            setTimeout(() => {
+                sessionStorage.setItem("sm_user", user);
+                window.location.href = "index.html";
+            }, 800);
+        }
+
+        // 2. Toggle Password Visibility
+        function togglePassword() {
+            const passInput = document.getElementById("p");
+            const icon = document.getElementById("togglePass");
+
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+
+</body>
+</html>
